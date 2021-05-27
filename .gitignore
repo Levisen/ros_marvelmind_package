@@ -1,2 +1,5 @@
 *.autosave
 .vscode
+build
+install
+log

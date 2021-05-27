@@ -19,9 +19,9 @@ This package was developed on and tested on ROS2 Eloquent running on Ubuntu 18.0
 1. Ensure user is added to `dialout` group to get access to serial port. (needs a reboot)    
 2. Follow the instructions on [this page](https://marvelmind.com/pics/marvelmind_ROS.pdf) as well to ensure the same access.
 3. You can also add a file called `99-tty.rules` under `/etc/udev/rules.d` with the following content:
-```
+```bash
 #Marvelmind serial port rules
-KERNEL==”ttyACM0”,GROUP=”dialout”,MODE=”666”
+KERNEL=="ttyACM0" GROUP="dialout" MODE="666"
 ```
 
 ## Bringup
