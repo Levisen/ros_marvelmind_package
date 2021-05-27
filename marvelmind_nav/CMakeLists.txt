@@ -21,6 +21,7 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(lifecycle_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(marvelmind_interfaces REQUIRED)
 find_package(rmw REQUIRED) #QoS
 
@@ -34,7 +35,7 @@ add_library(marvelmind_nav_lib
 # Executables
 add_executable(marvelmind_nav src/marvelmind_navigation.cpp
                               src/marvelmind_hedge.c)
-ament_target_dependencies(marvelmind_nav rclcpp std_msgs marvelmind_interfaces)
+ament_target_dependencies(marvelmind_nav rclcpp std_msgs geometry_msgs marvelmind_interfaces)
 target_link_libraries(marvelmind_nav
   ${rclcpp_lifecycle_LIBRARIES}
   ${std_msgs_LIBRARIES}

@@ -27,6 +27,7 @@
 #include "marvelmind_interfaces/msg/hedge_quality.hpp"
 #include "marvelmind_interfaces/msg/marvelmind_waypoint.hpp"
 #include "std_msgs/msg/string.hpp"
+#include <geometry_msgs/msg/point.hpp>
 extern "C"
 {
 #include "marvelmind_nav/marvelmind_hedge.h"
@@ -37,6 +38,7 @@ extern "C"
 #define HEDGE_POSITION_TOPIC_NAME "hedge_pos"
 #define HEDGE_POSITION_ADDRESSED_TOPIC_NAME "hedge_pos_a"
 #define HEDGE_POSITION_WITH_ANGLE_TOPIC_NAME "hedge_pos_ang"
+#define HEGDE_POSITON_STD_POINT_TOPIC_NAME "hedge_pos_meters_std_msg"
 #define BEACONS_POSITION_ADDRESSED_TOPIC_NAME "beacons_pos_a"
 #define HEDGE_IMU_RAW_TOPIC_NAME "hedge_imu_raw"
 #define HEDGE_IMU_FUSION_TOPIC_NAME "hedge_imu_fusion"
@@ -55,13 +57,15 @@ public:
   : rclcpp_lifecycle::LifecycleNode(node_name,
                                     rclcpp::NodeOptions().use_intra_process_comms(intra_process_comms)),
       argc_(argc), argv_(argv)
-{}
+{
+}
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_activate(const rclcpp_lifecycle::State &);
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State &);
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_error(const rclcpp_lifecycle::State &);
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_cleanup(const rclcpp_lifecycle::State &);
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_configure(const rclcpp_lifecycle::State &);
   rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn on_shutdown(const rclcpp_lifecycle::State &);
+
 ~MarvelmindNavigation() {}
 
 private:
@@ -87,6 +91,7 @@ private:
   marvelmind_interfaces::msg::HedgeTelemetry hedge_telemetry_msg;// Telemetry message for publishing to ROS topic
   marvelmind_interfaces::msg::HedgeQuality hedge_quality_msg;// Quality message for publishing to ROS topic
   marvelmind_interfaces::msg::MarvelmindWaypoint marvelmind_waypoint_msg;// Waypoint message for publishing to ROS topic
+  geometry_msgs::msg::Point _hedgePointMsg;
 
   std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<marvelmind_interfaces::msg::HedgePosAng>> hedge_pos_ang_publisher_;
   std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<marvelmind_interfaces::msg::HedgePosA>> hedge_pos_publisher_;
@@ -103,6 +108,7 @@ private:
   std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<marvelmind_interfaces::msg::HedgeQuality>> hedge_quality_publisher_;
 
   std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<marvelmind_interfaces::msg::MarvelmindWaypoint>> marvelmind_waypoint_publisher_;
+  std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<geometry_msgs::msg::Point>>_hedgePointPub;
 
 
 

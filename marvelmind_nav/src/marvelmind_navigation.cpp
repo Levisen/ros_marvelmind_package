@@ -336,6 +336,7 @@ void MarvelmindNavigation::activateAllPublishers()
     hedge_pos_ang_publisher_->on_activate();
     hedge_pos_publisher_->on_activate();
     hedge_pos_noaddress_publisher_->on_activate();
+    _hedgePointPub->on_activate();
     beacons_pos_publisher_->on_activate();
     hedge_imu_raw_publisher_->on_activate();
     hedge_imu_fusion_publisher_->on_activate();
@@ -350,6 +351,7 @@ void MarvelmindNavigation::deactivateAllPublishers()
 {
     hedge_pos_ang_publisher_->on_deactivate();
     hedge_pos_publisher_->on_deactivate();
+    _hedgePointPub->on_deactivate();
     hedge_pos_noaddress_publisher_->on_deactivate();
     beacons_pos_publisher_->on_deactivate();
     hedge_imu_raw_publisher_->on_deactivate();
@@ -365,6 +367,7 @@ void MarvelmindNavigation::resetAllPublishers()
 {
     hedge_pos_ang_publisher_.reset();
     hedge_pos_publisher_.reset();
+    _hedgePointPub.reset();
     hedge_pos_noaddress_publisher_.reset();
     beacons_pos_publisher_.reset();
     hedge_imu_raw_publisher_.reset();
@@ -425,6 +428,7 @@ void MarvelmindNavigation::createPublishers()
     hedge_quality_publisher_ = this->create_publisher<marvelmind_interfaces::msg::HedgeQuality>(HEDGE_QUALITY_TOPIC_NAME, qos);
 
     marvelmind_waypoint_publisher_ = this->create_publisher<marvelmind_interfaces::msg::MarvelmindWaypoint>(MARVELMIND_WAYPOINT_TOPIC_NAME, qos);
+    _hedgePointPub = this->create_publisher<geometry_msgs::msg::Point>(HEGDE_POSITON_STD_POINT_TOPIC_NAME,qos);
 }
 
 void MarvelmindNavigation::main_loop()
@@ -459,6 +463,10 @@ void MarvelmindNavigation::main_loop()
         {
             hedge_pos_ang_publisher_->publish(hedge_pos_ang_msg);
             hedge_pos_publisher_->publish(hedge_pos_msg);
+            _hedgePointMsg.x = hedge_pos_msg.x_m;
+            _hedgePointMsg.y = hedge_pos_msg.y_m;
+            _hedgePointMsg.z = hedge_pos_msg.z_m;
+            _hedgePointPub->publish(_hedgePointMsg);
             hedge_pos_noaddress_publisher_->publish(hedge_pos_noaddress_msg);
         }
 
